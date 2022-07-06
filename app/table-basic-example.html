@@ -1,0 +1,94 @@
+<h1 class="m-t-xl m-b-xl"><a target="_blank"
+		href="https://trungk18.com/experience/angular-material-data-table-export-to-excel-file/">
+		How to export a table or an array in Angular to an excel file</a>
+</h1>
+
+<h2>1. Export Table (Material and normal table rendering by &lt;table&gt; &lt;tr&gt; and &lt;td&gt;)</h2>
+<p>
+	If the table is rendered with &lt;mat-table&gt;, &lt;mat-header-cell&gt;, &lt;mat-cell&gt;, see the second approach to export an array to XLSX file.
+</p>
+<div class="export-container">
+	<button mat-raised-button color="primary" (click)="exportTable()">Export Material Table</button>
+</div>
+
+<table id="ExampleMaterialTable" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+	<ng-container matColumnDef="position">
+		<th mat-header-cell *matHeaderCellDef> No. </th>
+		<td mat-cell *matCellDef="let element"> {{element.position}} </td>
+	</ng-container>
+
+	<ng-container matColumnDef="name">
+		<th mat-header-cell *matHeaderCellDef> Name </th>
+		<td mat-cell *matCellDef="let element"> {{element.name}} </td>
+	</ng-container>
+
+	<ng-container matColumnDef="weight">
+		<th mat-header-cell *matHeaderCellDef> Weight </th>
+		<td mat-cell *matCellDef="let element"> {{element.weight}} </td>
+	</ng-container>
+
+	<ng-container matColumnDef="symbol">
+		<th mat-header-cell *matHeaderCellDef> Symbol </th>
+		<td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+	</ng-container>
+
+	<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+	<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
+<hr />
+<div class="export-container">
+	<button mat-raised-button color="primary" (click)="exportNormalTable()">Export Normal Table</button>
+</div>
+
+<table id="ExampleNormalTable" class="normal-table mat-elevation-z8">
+	<thead>
+		<tr>
+			<th> No. </th>
+			<th> Name </th>
+			<th> Weight </th>
+			<th> Symbol </th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr *ngFor="let item of reverseDataSource">
+			<td> {{item.position}} </td>
+			<td> {{item.name}} </td>
+			<td> {{item.weight}} </td>
+			<td> {{item.symbol}} </td>
+		</tr>
+	</tbody>
+</table>
+
+<h2>2. Export an array</h2>
+<p>Only export column Name and Symbol</p>
+<p>Very useful when you need to do some logic with the data before exporting. At the end of the day, the table was
+	rendered based on the the array.</p>
+<button mat-raised-button color="primary" (click)="exportArray()">Export Array</button>
+
+<pre>
+  {{ dataSource | json }}
+</pre>
+
+<p>This table was rendering by &lt;mat-table&gt;, &lt;mat-header-cell&gt;, &lt;mat-cell&gt;. XLSX won't support to
+	export this table. But we can export the array instead
+
+</p>
+<mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+	<ng-container matColumnDef="name">
+		<mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+		<mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+	</ng-container>
+
+	<ng-container matColumnDef="symbol">
+		<mat-header-cell *matHeaderCellDef> Symbol </mat-header-cell>
+		<mat-cell *matCellDef="let element"> {{element.symbol}} </mat-cell>
+	</ng-container>
+
+	<mat-header-row *matHeaderRowDef="matColumns"></mat-header-row>
+	<mat-row *matRowDef="let row; columns: matColumns;"></mat-row>
+</mat-table>
+
+<hr />
+For clarity and consistency when building UI, please read this <a target="_blank"
+	href="https://github.com/trungk18/front-end-editorial-style-guide">front-end-editorial-style-guide</a>
